@@ -25,6 +25,12 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "extra": {
+      "eas": {
+        "projectId": "68e6576a-1573-47e3-b0ee-d99246e91752"
+      }
+    },
+    "owner": "iamnataly"
   }
 }
