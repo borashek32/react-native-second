@@ -1,7 +1,10 @@
-import {StyleSheet, Text, TouchableOpacity, View} from "react-native"
+import {Alert, StyleSheet, Text, TouchableOpacity, View} from "react-native"
 import {NavigationProp} from "@react-navigation/native"
 import React from "react";
-import {auth} from "../firebase"
+import {useAppDispatch} from "../common/hooks/use-app-dispatch"
+import {authThunks} from "./auth/auth.slice"
+import {useAppSelector} from "../common/hooks/use-app-selector"
+import {selectEmail, selectUserName} from "./auth/auth.selectors"
 
 
 type HomeScreenProps = {
@@ -10,16 +13,23 @@ type HomeScreenProps = {
 
 export const HomeScreen = ({navigation}: HomeScreenProps) => {
 
+  const dispatch = useAppDispatch()
+
+  const email = useAppSelector(selectEmail)
+  const userName = useAppSelector(selectUserName)
+
   const handleLogOut = () => {
-    auth
-      .signOut()
-      .then(() => navigation.reset({ index: 0, routes: [{ name: "Login" }] }))
+    dispatch(authThunks.handleLogOut())
+      .then(() => navigation.reset({
+        index: 0,
+        routes: [{ name: "Login" }]
+      }))
       .catch((error) => {
-        console.log("Ошибка при выходе:", error);
+        Alert.alert("Error ", error);
       });
   }
 
-  const Item = ({ navigation }: { navigation: NavigationProp<any, 'Profile'> }) => (
+  const Navigation = ({ navigation }: { navigation: NavigationProp<any, 'Profile'> }) => (
     <View style={styles.itemsWrapper}>
       <TouchableOpacity
         style={styles.item}
@@ -41,6 +51,15 @@ export const HomeScreen = ({navigation}: HomeScreenProps) => {
 
       <TouchableOpacity
         style={styles.item}
+        onPress={() => {
+          navigation.navigate('Cart');
+        }}
+      >
+        <Text style={styles.buttonText}>Go to Cart</Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity
+        style={styles.item}
         onPress={handleLogOut}
       >
         <Text style={styles.buttonText}>Log out</Text>
@@ -51,9 +70,12 @@ export const HomeScreen = ({navigation}: HomeScreenProps) => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Home</Text>
-      <Text>Email: {auth.currentUser?.email}</Text>
-      <Item navigation={navigation} />
+      {userName
+        ? <Text style={styles.title}>Welcome, {userName}</Text>
+        : <Text style={styles.title}>Welcome</Text>
+      }
+      <Text>Email: {email}</Text>
+      <Navigation navigation={navigation} />
     </View>
   );
 }

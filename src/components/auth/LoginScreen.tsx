@@ -1,7 +1,20 @@
-import {Alert, KeyboardAvoidingView, StyleSheet, Text, TextInput, TouchableOpacity, View} from "react-native"
-import {useEffect, useState} from "react"
-import {auth} from "../firebase"
-import {NavigationProp} from "@react-navigation/native"
+import {
+  ActivityIndicator,
+  Alert,
+  KeyboardAvoidingView,
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View
+} from "react-native"
+import React, {useEffect, useState} from "react";
+import {auth} from "../../common/api/firebase";
+import {NavigationProp} from "@react-navigation/native";
+import {authThunks} from "./auth.slice";
+import {useAppDispatch} from "../../common/hooks/use-app-dispatch";
+import {useSelector} from "react-redux"
+import {selectIsLoading} from "../../app/app.selectros"
 
 
 // nat@inbox.ru
@@ -13,28 +26,25 @@ type LoginScreenProps = {
 
 export const LoginScreen = ({navigation}: LoginScreenProps) => {
 
+  const dispatch = useAppDispatch()
+
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
 
+  const isLoading = useSelector(selectIsLoading)
+
   const handleSignUp = () => {
-    auth
-      .createUserWithEmailAndPassword(email, password)
-      .then(userCredentials => {
-        const user = userCredentials.user
-        console.log('Registered successfully');
-      })
-      .catch(error => Alert.alert('Error', error.message));
+    dispatch(authThunks.handleSignUp({ email, password }))
+      .unwrap()
+      .then(() => Alert.alert('You are registered successfully'))
+      .catch((error) => Alert.alert('Error', error.message))
   }
 
   const handleLogIn = () => {
-    auth
-      .signInWithEmailAndPassword(email, password)
-      .then(userCredentials => {
-        const user = userCredentials.user
-        Alert.alert('Logged in successfully');
-        navigation.navigate('Home')
-      })
-      .catch(error => Alert.alert('Error', error.message));
+    dispatch(authThunks.handleLogIn({ email, password }))
+      .unwrap()
+      .then(() => Alert.alert('You are logged in successfully'))
+      .catch((error) => Alert.alert('Error', error.message))
   }
 
   useEffect(() => {
@@ -52,6 +62,8 @@ export const LoginScreen = ({navigation}: LoginScreenProps) => {
       behavior={'padding'}
       style={styles.container}
     >
+      {isLoading && <ActivityIndicator />}
+      <Text style={styles.title}>Hello</Text>
       <View style={styles.inputWrapper}>
         <TextInput
           placeholder={'Email'}
@@ -93,6 +105,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     gap: 20
+  },
+  title: {
+    fontSize: 30
   },
   inputWrapper: {
     display: 'flex',
