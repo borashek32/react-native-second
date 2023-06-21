@@ -24,7 +24,7 @@ type LoginScreenProps = {
   navigation: NavigationProp<any, 'Login'>;
 }
 
-export const LoginScreen = ({navigation}: LoginScreenProps) => {
+export const AuthScreen = ({navigation}: LoginScreenProps) => {
 
   const dispatch = useAppDispatch()
 
@@ -43,7 +43,7 @@ export const LoginScreen = ({navigation}: LoginScreenProps) => {
   const handleLogIn = () => {
     dispatch(authThunks.handleLogIn({ email, password }))
       .unwrap()
-      .then(() => Alert.alert('You are logged in successfully'))
+      // .then(() => Alert.alert('You are logged in successfully'))
       .catch((error) => Alert.alert('Error', error.message))
   }
 

@@ -3,7 +3,6 @@ import {NavigationProp} from "@react-navigation/native"
 import React, {useEffect} from "react";
 import {useAppDispatch} from "../../common/hooks/use-app-dispatch"
 import {useSelector} from "react-redux"
-import {selectProductInCart} from "./cart.selectors"
 import {cartThunks} from "./cart.slice"
 import {selectEmail, selectUid, selectUserName} from "../auth/auth.selectors"
 import {ItemsInCart} from "./items/ItemsInCart"
@@ -40,8 +39,9 @@ export const CartScreen = ({navigation}: CartScreenProps) => {
           <View style={styles.itemsTable}>
             <View style={styles.item}>
               <Text>Product title</Text>
-              <Text>Price</Text>
+              <Text>Price, USD</Text>
               <Text>Quantity</Text>
+              <Text>Rm</Text>
             </View>
 
             <ItemsInCart />

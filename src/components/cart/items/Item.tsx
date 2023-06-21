@@ -2,7 +2,7 @@ import {Button, StyleSheet, Text, TouchableOpacity, View} from "react-native"
 import React, {FC} from "react"
 import {ProductInCartType} from "../cart.types"
 import {useAppDispatch} from "../../../common/hooks/use-app-dispatch"
-import {cartThunks} from "../cart.slice"
+import {cartActions, cartThunks} from "../cart.slice"
 
 type Props = {
   item: ProductInCartType
@@ -20,12 +20,16 @@ export const Item: FC<Props> = ({ item}) => {
     dispatch(cartThunks.handleIncrementCartItemQuantity({ uid: item.uid }))
   }
 
+  const removeItemFromCart = () => {
+    dispatch(cartThunks.handleRemoveCartItem( { uid: item.uid, userUid: item.userUid }))
+  }
+
   return (
     <View style={styles.itemsWrapper}>
       <TouchableOpacity style={styles.item} onPress={() => {}}>
         <Text style={styles.buttonText}>{item.title}</Text>
 
-        <Text style={styles.buttonText}>USD {item.price}</Text>
+        <Text style={styles.buttonText}>{item.price}</Text>
 
         <View style={styles.quantityWrapper}>
           <View style={styles.quantityButtons}>
@@ -39,6 +43,10 @@ export const Item: FC<Props> = ({ item}) => {
           <View style={styles.quantityButtons}>
             <Button title={'+'} onPress={incrementItemsInCart}/>
           </View>
+        </View>
+
+        <View style={styles.quantityButtons}>
+          <Button title={'x'} onPress={removeItemFromCart}/>
         </View>
       </TouchableOpacity>
 

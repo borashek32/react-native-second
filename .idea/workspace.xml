@@ -5,40 +5,20 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="cdf5de98-bc15-4b99-a92a-a4fe5e2d8578" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/app/app.selectros.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/app/app.slice.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/app/store.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/common/api/firebase.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/common/hooks/use-app-dispatch.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/common/hooks/use-app-selector.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/common/utils/create-app-async-thunk.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/common/utils/thunk-try-catch.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/auth/auth.selectors.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/auth/auth.slice.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/auth/auth.types.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/cart/CartScreen.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/cart/cart.selectors.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/cart/cart.slice.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/cart/cart.types.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/cart/items/Item.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/cart/items/ItemsInCart.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/profile/ProfileScreen.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/shop/ShopScreen.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/shop/items/Item.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/shop/items/ItemsInShop.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/shop/products.selectors.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/shop/products.slice.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/shop/products.types.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/nav/LogoImage.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/nav/Nav.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/App.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/App.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/firebase.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/screens/HomeScreen.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/HomeScreen.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/screens/LoginScreen.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/auth/LoginScreen.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/screens/ProfileScreen.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/screens/ShopScreen.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/screens/cat.jpeg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/yarn.lock" beforeDir="false" afterPath="$PROJECT_DIR$/yarn.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/app.slice.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/app.slice.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/common/api/firebase.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/common/api/firebase.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/auth/LoginScreen.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/auth/AuthScreen.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/auth/auth.slice.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/auth/auth.slice.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/cart/CartScreen.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/cart/CartScreen.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/cart/cart.selectors.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/cart/cart.selectors.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/cart/cart.slice.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/cart/cart.slice.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/cart/cart.types.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/cart/cart.types.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/cart/items/Item.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/cart/items/Item.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/cart/items/ItemsInCart.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/cart/items/ItemsInCart.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -104,7 +84,8 @@
       <workItem from="1687180167523" duration="60000" />
       <workItem from="1687180243510" duration="61931000" />
       <workItem from="1687341927720" duration="4316000" />
-      <workItem from="1687346435043" duration="10720000" />
+      <workItem from="1687346435043" duration="34764000" />
+      <workItem from="1687382781999" duration="811000" />
     </task>
     <servers />
   </component>

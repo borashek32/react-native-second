@@ -6,3 +6,8 @@ export type ProductInCartType = {
   priceForOneItem: number
   quantity: number
 }
+
+export type ProductsInCartInfoType = {
+  productsTotalQuantity: number
+  productsTotalPrice: number
+}

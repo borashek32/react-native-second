@@ -16,6 +16,9 @@ const slice = createSlice({
       .addCase(handleLogIn.fulfilled, (state, action) => {
         state.profile = action.payload.profile
       })
+      .addCase(handleLogOut.fulfilled, (state) => {
+        state.profile = null
+      })
   },
 });
 

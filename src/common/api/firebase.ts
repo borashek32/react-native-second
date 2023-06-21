@@ -1,7 +1,7 @@
 import firebase from "firebase/compat"
 import {getFirestore} from "@firebase/firestore"
 import initializeApp = firebase.initializeApp
-import {addDoc, collection, doc, getDoc, getDocs, query, updateDoc, where} from "firebase/firestore"
+import {addDoc, collection, deleteDoc, doc, getDoc, getDocs, query, updateDoc, where} from "firebase/firestore"
 import {ProductInCartType} from "../../components/cart/cart.types"
 import {ProductType} from "../../components/shop/products.types"
 import {Alert} from "react-native"
@@ -47,19 +47,32 @@ export const  getAllProducts = async () => {
 }
 
 export const addProductToCart = async (product: ProductType, userUid: string) => {
-  const cartCollectionRef = collection(db, 'cart')
+  const cartCollectionRef = collection(db, 'cart');
 
-  const newProductInCart: ProductInCartType = {
-    uid: product.uid,
-    title: product.title,
-    price: product.price,
-    priceForOneItem: product.price,
-    quantity: 1,
-    userUid: userUid
+  const q = query(cartCollectionRef, where('uid', '==', product.uid), where('userUid', '==', userUid));
+
+  const querySnapshot = await getDocs(q);
+
+  if (querySnapshot.empty) {
+    const newProductInCart: ProductInCartType = {
+      uid: product.uid,
+      title: product.title,
+      price: product.price,
+      priceForOneItem: product.price,
+      quantity: 1,
+      userUid: userUid
+    };
+
+    await addDoc(cartCollectionRef, newProductInCart);
+  } else {
+
+    const docToUpdate = querySnapshot.docs[0];
+    const updatedQuantity = docToUpdate.data().quantity + 1;
+    const updatedPrice = docToUpdate.data().priceForOneItem * updatedQuantity
+
+    await updateDoc(doc(db, 'cart', docToUpdate.id), { quantity: updatedQuantity, price: updatedPrice });
   }
-
-  await addDoc(cartCollectionRef, newProductInCart)
-}
+};
 
 export const getUserCartProducts = async (userUid: string) => {
   const productsCollection = collection(db, 'cart')
@@ -124,8 +137,8 @@ export const decrementCartItemQuantity = async (itemUid: string) => {
       userUid: cartItemData.userUid,
       title: cartItemData.title,
       priceForOneItem: cartItemData.priceForOneItem,
-      quantity: cartItemData.quantity - 1,
-      price: cartItemData.priceForOneItem * (cartItemData.quantity - 1)
+      quantity: (cartItemData.quantity > 1) ? cartItemData.quantity - 1 : cartItemData.quantity,
+      price: (cartItemData.quantity === 1) ? cartItemData.price : cartItemData.priceForOneItem * (cartItemData.quantity - 1)
     }
 
     const cartItemDocRef = doc(cartCollection, cartItemDoc.id)
@@ -134,3 +147,21 @@ export const decrementCartItemQuantity = async (itemUid: string) => {
     return updatedCartItemData;
   }
 }
+
+export const removeCartItem = async (itemUid: string, userUid: string) => {
+  const cartCollectionRef = collection(db, 'cart')
+  const q = query(cartCollectionRef, where('uid', '==', itemUid), where('userUid', '==', userUid));
+
+  const querySnapshot = await getDocs(q);
+
+  if (querySnapshot.empty) {
+    return { cartItems: [] };
+  }
+
+  const docToDelete = querySnapshot.docs[0];
+  await deleteDoc(doc(docToDelete.ref.parent, docToDelete.id));
+
+  const updatedQuerySnapshot = await getDocs(q);
+  const updatedCartItems = updatedQuerySnapshot.docs.map((doc) => ({ uid: doc.id, ...doc.data() }));
+  return { productsInCart: updatedCartItems };
+};
