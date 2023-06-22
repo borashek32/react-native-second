@@ -1,59 +1,28 @@
 import {Alert, StyleSheet, Text, TouchableOpacity, View} from "react-native"
-import {NavigationProp} from "@react-navigation/native"
+import {useNavigation} from "@react-navigation/native"
 import React from "react"
 import {useAppDispatch} from "../common/hooks/use-app-dispatch"
 import {authThunks} from "./auth/auth.slice"
 import {useAppSelector} from "../common/hooks/use-app-selector"
 import {selectEmail, selectUserName} from "./auth/auth.selectors"
+import {RootStackParamList} from "../common/navigation/Navigation"
+import {NativeStackNavigationProp} from "@react-navigation/native-stack"
 
 
-type HomeScreenProps = {
-  navigation: NavigationProp<any, 'Profile'>
-}
-
-const linksText = ['Profile', 'Shop', 'Cart']
-
-export const HomeScreen = ({navigation}: HomeScreenProps) => {
+export const HomeScreen = () => {
 
   const dispatch = useAppDispatch()
+  const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>()
 
   const email = useAppSelector(selectEmail)
   const userName = useAppSelector(selectUserName)
 
   const handleLogOut = () => {
     dispatch(authThunks.handleLogOut())
-      .then(() => navigation.reset({
-        index: 0,
-        routes: [{name: "Login"}]
-      }))
+      .then(() => navigation.navigate('Login'))
       .catch((error) => {
         Alert.alert("Error ", error)
       })}
-
-  const Navigation = ({navigation}: { navigation: NavigationProp<any, 'Profile'> }) => {
-    return (
-      <View style={styles.itemsWrapper}>
-        {linksText.map((link, index) => (
-          <TouchableOpacity
-            key={index}
-            style={styles.item}
-            onPress={() => {
-              navigation.navigate(link)
-            }}
-          >
-            <Text style={styles.buttonText}>{link}</Text>
-          </TouchableOpacity>
-        ))}
-
-        <TouchableOpacity
-          style={styles.item}
-          onPress={handleLogOut}
-        >
-          <Text style={styles.buttonText}>Log out</Text>
-        </TouchableOpacity>
-      </View>
-    )}
-
 
   return (
     <View style={styles.container}>
@@ -62,7 +31,28 @@ export const HomeScreen = ({navigation}: HomeScreenProps) => {
         : <Text style={styles.title}>Welcome</Text>
       }
       <Text>Email: {email}</Text>
-      <Navigation navigation={navigation}/>
+
+      <View style={styles.itemsWrapper}>
+        <TouchableOpacity style={styles.item} onPress={() => navigation.navigate('Home')}>
+          <Text style={styles.buttonText}>{'Home'}</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity style={styles.item} onPress={() => navigation.navigate('Profile')}>
+          <Text style={styles.buttonText}>{'Profile'}</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity style={styles.item} onPress={() => navigation.navigate('Shop')}>
+          <Text style={styles.buttonText}>{'Shop'}</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity style={styles.item} onPress={() => navigation.navigate('Cart')}>
+          <Text style={styles.buttonText}>{'Cart'}</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity style={styles.item} onPress={handleLogOut}>
+          <Text style={styles.buttonText}>Log out</Text>
+        </TouchableOpacity>
+      </View>
     </View>
   )
 }

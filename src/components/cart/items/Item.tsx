@@ -13,15 +13,15 @@ export const Item: FC<Props> = ({item}) => {
   const dispatch = useAppDispatch()
 
   const decrementItemsInCart = () => {
-    dispatch(cartThunks.handleDecrementCartItemQuantity({uid: item.uid}))
+    dispatch(cartThunks.handleDecrementCartItemQuantity({ uid: item.uid }))
   }
 
   const incrementItemsInCart = () => {
-    dispatch(cartThunks.handleIncrementCartItemQuantity({uid: item.uid}))
+    dispatch(cartThunks.handleIncrementCartItemQuantity({ uid: item.uid }))
   }
 
   const removeItemFromCart = () => {
-    dispatch(cartThunks.handleRemoveCartItem({uid: item.uid, userUid: item.userUid}))
+    dispatch(cartThunks.handleRemoveCartItem({ uid: item.uid, userUid: item.userUid }))
   }
 
   return (
@@ -30,7 +30,7 @@ export const Item: FC<Props> = ({item}) => {
       }}>
         <Text style={styles.buttonText}>{item.title}</Text>
 
-        <Text style={styles.buttonText}>{item.price}</Text>
+        <Text style={styles.buttonText}>{item.priceForOneItem}</Text>
 
         <View style={styles.quantityWrapper}>
           <View style={styles.quantityButtons}>

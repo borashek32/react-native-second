@@ -14,7 +14,6 @@ import {authThunks} from "./auth.slice";
 import {useAppDispatch} from "../../common/hooks/use-app-dispatch";
 import {useSelector} from "react-redux"
 import {selectIsLoading} from "../../app/app.selectros"
-import {auth} from "./auth.api"
 
 
 // nat@inbox.ru
@@ -44,20 +43,10 @@ export const AuthScreen = ({navigation}: LoginScreenProps) => {
     dispatch(authThunks.handleLogIn({ email, password }))
       .unwrap()
       .then(() => {
-        // Alert.alert('You are logged in successfully')
+        navigation.navigate('Home')
       })
       .catch((error) => Alert.alert('Error', error.message))
   }
-
-  useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged(user => {
-      if (user) {
-        navigation.navigate('Home')
-      }
-    })
-
-    return unsubscribe
-  }, [])
 
   return (
     <KeyboardAvoidingView

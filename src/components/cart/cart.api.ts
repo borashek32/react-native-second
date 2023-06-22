@@ -24,9 +24,8 @@ export const addProductToCart = async (product: ProductType, userUid: string) =>
 
     const docToUpdate = querySnapshot.docs[0]
     const updatedQuantity = docToUpdate.data().quantity + 1
-    const updatedPrice = docToUpdate.data().priceForOneItem * updatedQuantity
 
-    await updateDoc(doc(db, 'cart', docToUpdate.id), { quantity: updatedQuantity, price: updatedPrice })
+    await updateDoc(doc(db, 'cart', docToUpdate.id), { quantity: updatedQuantity, price: product.price })
   }
 }
 
@@ -54,7 +53,7 @@ export const getUserCartProducts = async (userUid: string) => {
 
   productsInCart.forEach(product => {
     totalQuantity += product.quantity
-    totalPrice += product.price
+    totalPrice += product.priceForOneItem * product.quantity
     return { totalQuantity, totalPrice }
   })
 
@@ -81,8 +80,8 @@ export const incrementCartItemQuantity = async (itemUid: string) => {
       title: cartItemData.title,
       totalQuantity: cartItemData.totalQuantity, // все товары в магазине
       priceForOneItem: cartItemData.priceForOneItem,
-      quantity: cartItemData.quantity, // товары в корзине
-      price: cartItemData.priceForOneItem * cartItemData.quantity
+      quantity: cartItemData.quantity + 1, // товары в корзине
+      price: cartItemData.priceForOneItem
     }
 
     const cartItemDocRef = doc(cartCollection, cartItemDoc.id)
@@ -109,8 +108,8 @@ export const decrementCartItemQuantity = async (itemUid: string) => {
       title: cartItemData.title,
       priceForOneItem: cartItemData.priceForOneItem,
       totalQuantity: cartItemData.totalQuantity, // все товары в магазине
-      quantity: cartItemData.quantity, // товары в корзине
-      price: cartItemData.priceForOneItem * cartItemData.quantity
+      quantity: cartItemData.quantity - 1, // товары в корзине
+      price: cartItemData.priceForOneItem
     }
 
     const cartItemDocRef = doc(cartCollection, cartItemDoc.id)

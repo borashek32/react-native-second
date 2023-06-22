@@ -5,26 +5,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="cdf5de98-bc15-4b99-a92a-a4fe5e2d8578" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/common/components/EmptyComponent.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/Layout/Layout.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/auth/auth.api.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/cart/cart.api.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/shop/shop.api.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/App.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/App.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/common/api/firebase.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/common/api/firebase.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/HomeScreen.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/HomeScreen.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Layout/Layout.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/common/navigation/Navigation.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/auth/AuthScreen.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/auth/AuthScreen.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/auth/auth.slice.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/auth/auth.slice.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/cart/CartScreen.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/cart/CartScreen.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/cart/cart.api.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/cart/cart.api.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/cart/cart.slice.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/cart/cart.slice.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/cart/cart.types.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/cart/cart.types.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/cart/items/Item.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/cart/items/Item.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/cart/items/ItemsInCart.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/cart/items/ItemsInCart.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/nav/Nav.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/nav/Nav.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/profile/ProfileScreen.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/profile/ProfileScreen.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/shop/ShopScreen.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/shop/ShopScreen.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/shop/products.slice.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/shop/products.slice.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -71,11 +60,11 @@
       <recent name="$PROJECT_DIR$/screens" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/common" />
       <recent name="$PROJECT_DIR$/src/components/cart/items" />
       <recent name="$PROJECT_DIR$/src" />
       <recent name="$PROJECT_DIR$/screens/profile" />
       <recent name="$PROJECT_DIR$/screens/auth" />
-      <recent name="$PROJECT_DIR$/screens/shop" />
     </key>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
@@ -93,7 +82,8 @@
       <workItem from="1687346435043" duration="34764000" />
       <workItem from="1687382781999" duration="2800000" />
       <workItem from="1687416875493" duration="3882000" />
-      <workItem from="1687420932435" duration="13288000" />
+      <workItem from="1687420932435" duration="13418000" />
+      <workItem from="1687442681666" duration="8072000" />
     </task>
     <servers />
   </component>

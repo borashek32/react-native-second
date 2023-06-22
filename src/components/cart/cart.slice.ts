@@ -1,5 +1,4 @@
 import {createSlice, PayloadAction} from "@reduxjs/toolkit"
-import {} from "../../common/api/firebase"
 import {CartInfoType, ProductInCartType} from "./cart.types"
 import {ProductType} from "../shop/products.types"
 import {thunkTryCatch} from "../../common/utils/thunk-try-catch"
@@ -11,7 +10,6 @@ import {
   incrementCartItemQuantity,
   removeCartItem
 } from "./cart.api"
-import {selectCartInfo} from "./cart.selectors"
 
 const slice = createSlice({
   name: 'cart',
@@ -75,7 +73,10 @@ const handleIncrementCartItemQuantity = createAppAsyncThunk<
     return thunkTryCatch(thunkAPI, async () => {
       const { dispatch } = thunkAPI
       const res = await incrementCartItemQuantity(arg.uid)
-      res && dispatch(cartActions.setCartInfo({ quantity: res.quantity, price: res.price }))
+      if (res) {
+        // dispatch(cartActions.setCartInfo({ quantity: res.quantity, price: res.price }))
+        dispatch(cartThunks.handleGetProductsInCart({ userUid: res.userUid }))
+      }
       return { updatedProductData: res }
     })
   })
@@ -89,7 +90,7 @@ const handleDecrementCartItemQuantity = createAppAsyncThunk<
       const { dispatch } = thunkAPI
       const res = await decrementCartItemQuantity(arg.uid)
       if (res && res.quantity === 0) {
-        dispatch(cartActions.setCartInfo({ quantity: -1, price: -res.priceForOneItem }))
+        // dispatch(cartActions.setCartInfo({ quantity: res.quantity, price: -res.priceForOneItem }))
         dispatch(cartThunks.handleRemoveCartItem({ uid: res.uid, userUid: res.userUid }))
       }
       return { updatedProductData: res }

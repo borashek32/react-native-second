@@ -10,7 +10,7 @@ const CartHeader = () => {
     <View style={styles.itemsTable}>
       <View style={styles.item}>
         <Text>Product title</Text>
-        <Text>Price, USD</Text>
+        <Text>USD/item</Text>
         <Text>Quantity</Text>
         <Text>Rm</Text>
       </View>
