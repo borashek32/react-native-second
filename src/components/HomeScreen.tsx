@@ -1,6 +1,6 @@
 import {Alert, StyleSheet, Text, TouchableOpacity, View} from "react-native"
 import {NavigationProp} from "@react-navigation/native"
-import React from "react";
+import React from "react"
 import {useAppDispatch} from "../common/hooks/use-app-dispatch"
 import {authThunks} from "./auth/auth.slice"
 import {useAppSelector} from "../common/hooks/use-app-selector"
@@ -8,8 +8,10 @@ import {selectEmail, selectUserName} from "./auth/auth.selectors"
 
 
 type HomeScreenProps = {
-  navigation: NavigationProp<any, 'Profile'>;
+  navigation: NavigationProp<any, 'Profile'>
 }
+
+const linksText = ['Profile', 'Shop', 'Cart']
 
 export const HomeScreen = ({navigation}: HomeScreenProps) => {
 
@@ -22,50 +24,35 @@ export const HomeScreen = ({navigation}: HomeScreenProps) => {
     dispatch(authThunks.handleLogOut())
       .then(() => navigation.reset({
         index: 0,
-        routes: [{ name: "Login" }]
+        routes: [{name: "Login"}]
       }))
       .catch((error) => {
-        Alert.alert("Error ", error);
-      });
-  }
+        Alert.alert("Error ", error)
+      })}
 
-  const Navigation = ({ navigation }: { navigation: NavigationProp<any, 'Profile'> }) => (
-    <View style={styles.itemsWrapper}>
-      <TouchableOpacity
-        style={styles.item}
-        onPress={() => {
-          navigation.navigate('Profile');
-        }}
-      >
-        <Text style={styles.buttonText}>Go to Profile</Text>
-      </TouchableOpacity>
+  const Navigation = ({navigation}: { navigation: NavigationProp<any, 'Profile'> }) => {
+    return (
+      <View style={styles.itemsWrapper}>
+        {linksText.map((link, index) => (
+          <TouchableOpacity
+            key={index}
+            style={styles.item}
+            onPress={() => {
+              navigation.navigate(link)
+            }}
+          >
+            <Text style={styles.buttonText}>{link}</Text>
+          </TouchableOpacity>
+        ))}
 
-      <TouchableOpacity
-        style={styles.item}
-        onPress={() => {
-          navigation.navigate('Shop');
-        }}
-      >
-        <Text style={styles.buttonText}>Go to Shop</Text>
-      </TouchableOpacity>
-
-      <TouchableOpacity
-        style={styles.item}
-        onPress={() => {
-          navigation.navigate('Cart');
-        }}
-      >
-        <Text style={styles.buttonText}>Go to Cart</Text>
-      </TouchableOpacity>
-
-      <TouchableOpacity
-        style={styles.item}
-        onPress={handleLogOut}
-      >
-        <Text style={styles.buttonText}>Log out</Text>
-      </TouchableOpacity>
-    </View>
-  );
+        <TouchableOpacity
+          style={styles.item}
+          onPress={handleLogOut}
+        >
+          <Text style={styles.buttonText}>Log out</Text>
+        </TouchableOpacity>
+      </View>
+    )}
 
 
   return (
@@ -75,9 +62,9 @@ export const HomeScreen = ({navigation}: HomeScreenProps) => {
         : <Text style={styles.title}>Welcome</Text>
       }
       <Text>Email: {email}</Text>
-      <Navigation navigation={navigation} />
+      <Navigation navigation={navigation}/>
     </View>
-  );
+  )
 }
 
 const styles = StyleSheet.create({
@@ -109,4 +96,4 @@ const styles = StyleSheet.create({
   buttonText: {
     fontSize: 20,
   }
-});
+})

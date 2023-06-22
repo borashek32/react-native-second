@@ -1,21 +1,12 @@
-import {Alert, Button, Image, ScrollView, StyleSheet, Text, TouchableOpacity, View} from "react-native"
+import {Alert, ScrollView, StyleSheet, Text, View} from "react-native"
 import {NavigationProp} from "@react-navigation/native"
 import React, {useEffect} from "react";
 import {useAppDispatch} from "../../common/hooks/use-app-dispatch"
 import {productsThunks} from "./products.slice"
-import {useSelector} from "react-redux"
-import {selectProducts} from "./products.selectors"
-import {ProductType} from "./products.types"
-import {cartThunks} from "../cart/cart.slice"
-import {selectUid} from "../auth/auth.selectors"
 import {ItemsInShop} from "./items/ItemsInShop"
 
 
-type ShopScreenProps = {
-  navigation: NavigationProp<any, 'Profile'>;
-}
-
-export const ShopScreen = ({navigation}: ShopScreenProps) => {
+export const ShopScreen = () => {
 
   const dispatch = useAppDispatch()
 

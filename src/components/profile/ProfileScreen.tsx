@@ -1,7 +1,6 @@
 import {Image, StyleSheet, Text, TouchableOpacity, View} from "react-native"
 import {useAppSelector} from "../../common/hooks/use-app-selector"
-import {selectProfile, selectUid} from "../auth/auth.selectors"
-import {useSelector} from "react-redux"
+import {selectProfile} from "../auth/auth.selectors"
 
 
 export const ProfileScreen = () => {

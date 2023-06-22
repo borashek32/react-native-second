@@ -9,19 +9,19 @@ import {
   View
 } from "react-native"
 import React, {useEffect, useState} from "react";
-import {auth} from "../../common/api/firebase";
 import {NavigationProp} from "@react-navigation/native";
 import {authThunks} from "./auth.slice";
 import {useAppDispatch} from "../../common/hooks/use-app-dispatch";
 import {useSelector} from "react-redux"
 import {selectIsLoading} from "../../app/app.selectros"
+import {auth} from "./auth.api"
 
 
 // nat@inbox.ru
 // 123123123
 
 type LoginScreenProps = {
-  navigation: NavigationProp<any, 'Login'>;
+  navigation: NavigationProp<any, 'Auth'>;
 }
 
 export const AuthScreen = ({navigation}: LoginScreenProps) => {
@@ -43,7 +43,9 @@ export const AuthScreen = ({navigation}: LoginScreenProps) => {
   const handleLogIn = () => {
     dispatch(authThunks.handleLogIn({ email, password }))
       .unwrap()
-      // .then(() => Alert.alert('You are logged in successfully'))
+      .then(() => {
+        // Alert.alert('You are logged in successfully')
+      })
       .catch((error) => Alert.alert('Error', error.message))
   }
 

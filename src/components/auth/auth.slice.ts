@@ -1,9 +1,11 @@
-import {createAsyncThunk, createSlice} from "@reduxjs/toolkit"
+import {createSlice} from "@reduxjs/toolkit"
 import {ArgAuthType, ProfileType} from "./auth.types"
-import {auth, db} from "../../common/api/firebase"
-import {AxiosError, isAxiosError} from "axios"
+import {db} from "../../common/api/firebase"
+import {addDoc, collection} from "firebase/firestore"
+import {thunkTryCatch} from "../../common/utils/thunk-try-catch"
+import {createAppAsyncThunk} from "../../common/utils/create-app-async-thunk"
+import {auth} from "./auth.api"
 import {appActions} from "../../app/app.slice"
-import {collection, addDoc} from "firebase/firestore"
 
 const slice = createSlice({
   name: 'auth',
@@ -20,14 +22,26 @@ const slice = createSlice({
         state.profile = null
       })
   },
-});
+})
 
-const handleSignUp = createAsyncThunk<void, ArgAuthType>(
+const authMe = createAppAsyncThunk<{ profile: ProfileType }>(
+  "auth/auth-me",
+  async (arg, thunkAPI
+  ) => {
+    return thunkTryCatch(thunkAPI, async () => {
+      const { dispatch } = thunkAPI
+      const res = await auth.currentUser
+      if (res) {
+        dispatch(appActions.setIsInitialized({ isInitialized: true }))
+        return {profile: res}
+      }
+    })
+  })
+
+const handleSignUp = createAppAsyncThunk<void, ArgAuthType>(
   'auth/handle-sign-up',
-  async (arg, thunkApi) => {
-    const {dispatch, rejectWithValue} = thunkApi
-
-    try {
+  async (arg, thunkAPI) => {
+    return thunkTryCatch(thunkAPI, async () => {
       await auth.createUserWithEmailAndPassword(arg.email, arg.password)
         .then(async (res) => {
           const usersCollectionRef = collection(db, 'users')
@@ -45,63 +59,26 @@ const handleSignUp = createAsyncThunk<void, ArgAuthType>(
           }
           await addDoc(usersCollectionRef, currentUser)
         })
-
-    } catch (e) {
-      const err = e as Error | AxiosError<{ error: string }>
-
-      if (isAxiosError(err)) {
-        const error = err.response ? err.response.data.error : err.message
-        dispatch(appActions.setError({error}))
-      } else {
-        dispatch(appActions.setError({error: `Native error ${err.message}`}))
-      }
-      return rejectWithValue(e)
-    }
+    })
   })
 
-const handleLogIn = createAsyncThunk<{ profile: ProfileType }, ArgAuthType>(
+const handleLogIn = createAppAsyncThunk<{ profile: ProfileType }, ArgAuthType>(
   'auth/handle-sign-in',
-  async (arg, thunkApi) => {
-    const {dispatch, rejectWithValue} = thunkApi
-
-    try {
+  async (arg, thunkAPI) => {
+    return thunkTryCatch(thunkAPI, async () => {
       const res = await auth.signInWithEmailAndPassword(arg.email, arg.password)
       return { profile: res.user } as { profile: ProfileType }
-
-    } catch (e) {
-      const err = e as Error | AxiosError<{ error: string }>
-
-      if (isAxiosError(err)) {
-        const error = err.response ? err.response.data.error : err.message
-        dispatch(appActions.setError({error}))
-      } else {
-        dispatch(appActions.setError({error: `Native error ${err.message}`}))
-      }
-      return rejectWithValue(e)
-    }
+    })
   })
 
-const handleLogOut = createAsyncThunk<void>(
+const handleLogOut = createAppAsyncThunk<void>(
   'auth/handle-redirect-path',
-  async (arg, thunkApi) => {
-    const {dispatch, rejectWithValue} = thunkApi
-
-    try {
+  async (arg, thunkAPI) => {
+    return thunkTryCatch(thunkAPI, async () => {
       await auth.signOut()
-
-    } catch (e) {
-      const err = e as Error | AxiosError<{ error: string }>
-
-      if (isAxiosError(err)) {
-        const error = err.response ? err.response.data.error : err.message
-        dispatch(appActions.setError({error}))
-      } else {
-        dispatch(appActions.setError({error: `Native error ${err.message}`}))
-      }
-      return rejectWithValue(e)
-    }
+    })
   })
 
-export const authThunks = { handleSignUp, handleLogIn, handleLogOut };
+export const authThunks = { handleSignUp, handleLogIn, handleLogOut, authMe };
 export const authActions = slice.actions
 export const authReducer = slice.reducer

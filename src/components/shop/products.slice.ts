@@ -1,8 +1,9 @@
-import {createAsyncThunk, createSlice} from "@reduxjs/toolkit"
+import {createSlice} from "@reduxjs/toolkit"
 import {ProductType} from "./products.types"
-import {getAllProducts} from "../../common/api/firebase"
 import {thunkTryCatch} from "../../common/utils/thunk-try-catch"
 import {createAppAsyncThunk} from "../../common/utils/create-app-async-thunk"
+import {getAllProducts} from "./shop.api"
+
 
 const slice = createSlice({
   name: 'products',

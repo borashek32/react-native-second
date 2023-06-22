@@ -1,14 +1,17 @@
 import {createSlice, PayloadAction} from "@reduxjs/toolkit"
+import {} from "../../common/api/firebase"
+import {CartInfoType, ProductInCartType} from "./cart.types"
+import {ProductType} from "../shop/products.types"
+import {thunkTryCatch} from "../../common/utils/thunk-try-catch"
+import {createAppAsyncThunk} from "../../common/utils/create-app-async-thunk"
 import {
   addProductToCart,
   decrementCartItemQuantity,
   getUserCartProducts,
-  incrementCartItemQuantity, removeCartItem
-} from "../../common/api/firebase"
-import {ProductInCartType, ProductsInCartInfoType} from "./cart.types"
-import {ProductType} from "../shop/products.types"
-import {thunkTryCatch} from "../../common/utils/thunk-try-catch"
-import {createAppAsyncThunk} from "../../common/utils/create-app-async-thunk"
+  incrementCartItemQuantity,
+  removeCartItem
+} from "./cart.api"
+import {selectCartInfo} from "./cart.selectors"
 
 const slice = createSlice({
   name: 'cart',
@@ -17,7 +20,7 @@ const slice = createSlice({
     cartInfo: {
       productsTotalQuantity: 0,
       productsTotalPrice: 0
-    } as ProductsInCartInfoType
+    } as CartInfoType
   },
   reducers: {
     setCartInfo: (state, action: PayloadAction<{ quantity: number, price: number }>) => {
@@ -29,6 +32,7 @@ const slice = createSlice({
     builder
       .addCase(handleGetProductsInCart.fulfilled, (state, action) => {
         state.productsInCart = action.payload.productsInCart
+        state.cartInfo = action.payload.cartInfo
       })
       .addCase(handleIncrementCartItemQuantity.fulfilled, (state, action) => {
         const index = state.productsInCart.findIndex(product => product && product.uid === action.payload.updatedProductData.uid)
@@ -40,7 +44,9 @@ const slice = createSlice({
   }
 })
 
-const handleAddToCart = createAppAsyncThunk<void, { product: ProductType, userUid: string }>(
+const handleAddToCart = createAppAsyncThunk<
+  void, { product: ProductType, userUid: string }
+  >(
   'cart/add-to-cart',
   async (arg, thunkAPI) => {
     return thunkTryCatch(thunkAPI, async () => {
@@ -50,33 +56,38 @@ const handleAddToCart = createAppAsyncThunk<void, { product: ProductType, userUi
     })
   })
 
-const handleGetProductsInCart = createAppAsyncThunk<{ productsInCart: ProductInCartType[] }, { userUid: string }>(
+const handleGetProductsInCart = createAppAsyncThunk<
+  { productsInCart: ProductInCartType[], cartInfo: CartInfoType }, { userUid: string }
+  >(
   'cart/handle-get-products-in-cart',
   async (arg, thunkAPI) => {
     return thunkTryCatch(thunkAPI, async () => {
       const res = await getUserCartProducts(arg.userUid)
-      return { productsInCart: res.productsInCart }
+      return { productsInCart: res.productsInCart, cartInfo: res.cartInfo }
     })
   })
 
-const handleIncrementCartItemQuantity = createAppAsyncThunk<{ updatedProductData: ProductInCartType }, { uid: string}>(
+const handleIncrementCartItemQuantity = createAppAsyncThunk<
+  { updatedProductData: ProductInCartType }, { uid: string}
+  >(
   'cart/handle-increment-cart-item-quantity',
   async (arg, thunkAPI) => {
     return thunkTryCatch(thunkAPI, async () => {
       const { dispatch } = thunkAPI
       const res = await incrementCartItemQuantity(arg.uid)
-      res && dispatch(cartActions.setCartInfo({ quantity: 1, price: res.priceForOneItem }))
+      res && dispatch(cartActions.setCartInfo({ quantity: res.quantity, price: res.price }))
       return { updatedProductData: res }
     })
   })
 
-const handleDecrementCartItemQuantity = createAppAsyncThunk<{ updatedProductData: ProductInCartType }, { uid: string}>(
-  'cart/handle-increment-cart-item-quantity',
+const handleDecrementCartItemQuantity = createAppAsyncThunk<
+  { updatedProductData: ProductInCartType }, { uid: string}
+  >(
+  'cart/handle-decrement-cart-item-quantity',
   async (arg, thunkAPI) => {
     return thunkTryCatch(thunkAPI, async () => {
       const { dispatch } = thunkAPI
       const res = await decrementCartItemQuantity(arg.uid)
-      // res && dispatch(cartActions.setCartInfo({ quantity: -1, price: -res.priceForOneItem }))
       if (res && res.quantity === 0) {
         dispatch(cartActions.setCartInfo({ quantity: -1, price: -res.priceForOneItem }))
         dispatch(cartThunks.handleRemoveCartItem({ uid: res.uid, userUid: res.userUid }))
@@ -85,11 +96,15 @@ const handleDecrementCartItemQuantity = createAppAsyncThunk<{ updatedProductData
     })
   })
 
-const handleRemoveCartItem = createAppAsyncThunk<{ productsInCart: ProductInCartType[] }, { uid: string, userUid: string}>(
+const handleRemoveCartItem = createAppAsyncThunk<
+  { productsInCart: ProductInCartType[] }, { uid: string, userUid: string}
+  >(
   'cart/handle-remove-cart-item',
   async (arg, thunkAPI) => {
     return thunkTryCatch(thunkAPI, async () => {
+      const { dispatch } = thunkAPI
       const res = await removeCartItem(arg.uid, arg.userUid)
+      dispatch(cartThunks.handleGetProductsInCart({ userUid: arg.userUid }))
       return { productsInCart: res.productsInCart }
     })
   })

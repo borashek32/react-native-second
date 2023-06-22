@@ -6,22 +6,20 @@ import {useSelector} from "react-redux"
 import {cartThunks} from "./cart.slice"
 import {selectEmail, selectUid, selectUserName} from "../auth/auth.selectors"
 import {ItemsInCart} from "./items/ItemsInCart"
+import {selectCartInfo} from "./cart.selectors"
 
 
-type CartScreenProps = {
-  navigation: NavigationProp<any, 'Profile'>;
-}
-
-export const CartScreen = ({navigation}: CartScreenProps) => {
+export const CartScreen = () => {
 
   const dispatch = useAppDispatch()
 
   const userName = useSelector(selectUserName)
   const email = useSelector(selectEmail)
   const userUid = useSelector(selectUid)
+  const cartInfo = useSelector(selectCartInfo)
 
   useEffect(() => {
-    userUid && dispatch(cartThunks.handleGetProductsInCart({ userUid }))
+    userUid && dispatch(cartThunks.handleGetProductsInCart({userUid}))
       .unwrap()
       .catch((error) => Alert.alert('Error', error.message))
   }, [])
@@ -35,17 +33,12 @@ export const CartScreen = ({navigation}: CartScreenProps) => {
             ? <Text>{userName}</Text>
             : <Text>{email}</Text>
           }
+          <ItemsInCart/>
+        </View>
 
-          <View style={styles.itemsTable}>
-            <View style={styles.item}>
-              <Text>Product title</Text>
-              <Text>Price, USD</Text>
-              <Text>Quantity</Text>
-              <Text>Rm</Text>
-            </View>
-
-            <ItemsInCart />
-          </View>
+        <View style={styles.cartInfoWrapper}>
+          <Text style={styles.cartInfo}>Total quantity: {cartInfo.productsTotalQuantity} items</Text>
+          <Text style={styles.cartInfo}>Total price: USD {cartInfo.productsTotalPrice}</Text>
         </View>
       </ScrollView>
     </>
@@ -56,22 +49,20 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',
-    justifyContent: 'flex-start',
     gap: 20,
     paddingTop: 50
   },
   title: {
     fontSize: 30
   },
-  itemsTable: {
+  cartInfoWrapper: {
     marginTop: 50,
-    marginBottom: 50
+    marginRight: 40,
+    flexDirection: 'column',
+    gap: 10,
+    alignItems: 'flex-end'
   },
-  item: {
-    width: 350,
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center'
+  cartInfo: {
+    fontSize: 18
   }
 });
